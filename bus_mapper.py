@@ -1,6 +1,5 @@
 from google.transit import gtfs_realtime_pb2
 import folium, random, requests
-from folium import plugins
 from helpers import *
 
 gtfs = 'https://victoria.mapstrat.com/current/gtfrealtime_VehiclePositions.bin'
