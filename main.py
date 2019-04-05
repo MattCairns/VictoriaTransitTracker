@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 from bus_mapper import *
 import time, os
 
@@ -7,9 +7,16 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    render_bus_locations('templates/index.html')
     return render_template('index.html')
 
+@app.route('/busses')
+def markers():
+    data = get_bus_locations()
+    return jsonify({"data": data})
+
+
+
+        
 if __name__ == '__main__':
     app.debug = True
     port = int(os.environ.get("PORT", 5000))
