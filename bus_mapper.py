@@ -43,7 +43,6 @@ def get_bus_locations():
 
 def get_bus_paths():
     _, bus_paths = get_data()
-    print(bus_paths)
     return bus_paths
 
 def main():
