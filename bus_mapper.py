@@ -34,14 +34,10 @@ def get_bus_locations():
             bus_name = trips[trip_id][3]
             route_id = trips_static[bus_name][0]
             route_short_name = routes_static[route_id][2]
+            bus_popup = '<p style="text-align:center;"><b>' + route_short_name + '</b><br>' + bus_name + '</p>'
             bus_locations.append([bus.vehicle.position.latitude, bus.vehicle.position.longitude,
-                                    bus.vehicle.position.bearing])
-    #         c = random.choice(colors)
-    #         folium.Marker([bus.vehicle.position.latitude, bus.vehicle.position.longitude],
-    #                       popup=route_short_name + ' ' + bus_name, icon=folium.Icon(
-    #                       color=c, angle = int(bus.vehicle.position.bearing), icon='arrow-up')
-    #                       ).add_to(m)
-    #         folium.PolyLine(shapes[trips[trip_id][7]], color=c).add_to(m)
+                                    bus_popup, shapes[trips[trip_id][7]]])
+
 
 
     return bus_locations

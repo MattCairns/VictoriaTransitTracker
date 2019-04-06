@@ -11,22 +11,38 @@ function makeMap() {
 
 var layer = L.layerGroup();
 
-function renderData(districtid) {
+function renderBusses() {
     var arrowMarker = L.AwesomeMarkers.icon({
         icon: 'arrow-up',
         markerColor: 'red'
     });
     $.getJSON("/busses", function(obj) {
+
+        // Add the busses
         var markers = obj.data.map(function(arr) {
             var bus = L.marker([arr[0], arr[1]]);
             bus.setIcon(arrowMarker);
+            bus.bindPopup(arr[2])
             return bus;
         });
+
+        // Add the bus route lines
+        var lines = obj.data.map(function(arr) {
+            var line = L.polyline(arr[3]);
+            return line;
+        });  
+
+        // Remove top level layer and create new layer groups.
         map.removeLayer(layer);
-        layer = L.layerGroup(markers);
-        map.addLayer(layer);
+        bus_layer = L.layerGroup(markers);
+        lines_layer = L.layerGroup(lines);
+
+        // Add the busses and lines to our map
+        map.addLayer(bus_layer);
+        map.addLayer(lines_layer);
     });
 }
+
 
 function onLocationFound(e) {
     var radius = e.accuracy / 2;
@@ -41,9 +57,8 @@ function onLocationFound(e) {
 
 $(function() {
     makeMap();
-    renderData('0');
-    $('#distsel').change(function() {
-        var val = $('#distsel option:selected').val();
-        renderData(val);
-    });
+    renderBusses()
+
+    // Refresh the bus locations every 30s
+    var interval = setInterval(function() { renderBusses(); }, 30 * 1000);
 })
