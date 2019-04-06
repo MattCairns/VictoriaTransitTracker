@@ -2,7 +2,7 @@ BASECOORDS = [48.427502, -123.367264];
 
 function makeMap() {
     var TILE_URL = "https://stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg";
-    var MB_ATTR = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
+    var MB_ATTR = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> | <a href="https://www.bctransit.com/">BCTransit</a>';
     map = L.map('llmap').setView(BASECOORDS, 8);
     map.locate({setView: true, maxZoom: 18})
     map.on('locationfound', onLocationFound)
