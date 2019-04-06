@@ -11,12 +11,15 @@ def read_trips(file_name, static = False):
                 d[row[2]] = row
     return d
 
-def read_routes(file_name):
+def read_routes(file_name, static = False):
     d = {}
     with open(file_name, encoding='utf8') as tsvin:
         reader = csv.reader(tsvin, delimiter = ',')
         for row in reader:
-            d[row[1]] = row
+            if static:
+                d[row[1]] = row
+            else:
+                d[row[0]] = row
     return d
 
 def read_shapes(file_name):

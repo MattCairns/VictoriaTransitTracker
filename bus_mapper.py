@@ -24,7 +24,8 @@ def get_bus_locations():
 
     trips = read_trips('data/trips.txt')
     trips_static = read_trips('data/trips_static.txt', static = True)
-    routes_static = read_routes('data/routes_static.txt')
+    routes_static = read_routes('data/routes_static.txt', static = True)
+    routes = read_routes('data/routes.txt')
     shapes = read_shapes('data/shapes.txt')
 
     bus_locations = []
@@ -34,9 +35,10 @@ def get_bus_locations():
             bus_name = trips[trip_id][3]
             route_id = trips_static[bus_name][0]
             route_short_name = routes_static[route_id][2]
+            route_colour = '#' + routes[trips[trip_id][0]][7]
             bus_popup = '<p style="text-align:center;"><b>' + route_short_name + '</b><br>' + bus_name + '</p>'
             bus_locations.append([bus.vehicle.position.latitude, bus.vehicle.position.longitude,
-                                    bus_popup, shapes[trips[trip_id][7]]])
+                                    bus_popup, route_colour, shapes[trips[trip_id][7]]])
 
 
 

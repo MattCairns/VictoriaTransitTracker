@@ -12,29 +12,32 @@ function makeMap() {
 var layer = L.layerGroup();
 
 function renderBusses() {
-    var arrowMarker = L.AwesomeMarkers.icon({
-        icon: 'arrow-up',
-        markerColor: 'red'
-    });
     $.getJSON("/busses", function(obj) {
-
         // Add the busses
-        var markers = obj.data.map(function(arr) {
+        var busses = obj.data.map(function(arr) {
             var bus = L.marker([arr[0], arr[1]]);
-            bus.setIcon(arrowMarker);
+            bus.setIcon(
+                L.AwesomeMarkers.icon({
+                    icon: 'arrow-up',
+                    markerColor: 'cadetblue',
+                    iconColor: arr[3]
+                })
+            );
             bus.bindPopup(arr[2])
             return bus;
         });
 
         // Add the bus route lines
         var lines = obj.data.map(function(arr) {
-            var line = L.polyline(arr[3]);
+            var line = L.polyline(arr[4]);
+            line.setStyle({ color: arr[3] });
             return line;
         });  
 
+        
         // Remove top level layer and create new layer groups.
-        map.removeLayer(layer);
-        bus_layer = L.layerGroup(markers);
+
+        bus_layer = L.layerGroup(busses);
         lines_layer = L.layerGroup(lines);
 
         // Add the busses and lines to our map
@@ -53,12 +56,14 @@ function onLocationFound(e) {
     L.circle(e.latlng, radius).addTo(map);
 }
 
-
-
 $(function() {
     makeMap();
     renderBusses()
 
     // Refresh the bus locations every 30s
-    var interval = setInterval(function() { renderBusses(); }, 30 * 1000);
+    var interval = setInterval(function() { 
+        map.removeLayer(bus_layer);
+
+        renderBusses(); 
+    }, 30 * 1000);
 })
