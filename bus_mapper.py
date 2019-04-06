@@ -11,13 +11,7 @@ def get_realtime_data(link):
     return feed
 
 
-def get_bus_locations():
-    colors = ['red', 'blue', 'green', 'purple', 'orange', 'darkred',
-                 'lightred', 'darkblue', 'darkgreen', 'cadetblue',
-                 'darkpurple', 'lightblue', 'lightgreen',
-                 'gray', 'black']
-
-
+def get_data():
     feed = get_realtime_data(gtfs)
 
     print('There are {} buses.'.format(len(feed.entity)))
@@ -29,6 +23,7 @@ def get_bus_locations():
     shapes = read_shapes('data/shapes.txt')
 
     bus_locations = []
+    bus_paths = []
     for bus in feed.entity:
         trip_id = bus.vehicle.trip.trip_id
         if trip_id != '' and trip_id in trips:
@@ -37,12 +32,19 @@ def get_bus_locations():
             route_short_name = routes_static[route_id][2]
             route_colour = '#' + routes[trips[trip_id][0]][7]
             bus_popup = '<p style="text-align:center;"><b>' + route_short_name + '</b><br>' + bus_name + '</p>'
-            bus_locations.append([bus.vehicle.position.latitude, bus.vehicle.position.longitude,
-                                    bus_popup, route_colour, shapes[trips[trip_id][7]]])
+            bus_locations.append([bus.vehicle.position.latitude, bus.vehicle.position.longitude, bus_popup, route_colour])
+            bus_paths.append([shapes[trips[trip_id][7]], route_colour])
 
+    return bus_locations, bus_paths
 
-
+def get_bus_locations():
+    bus_locations, _ = get_data()
     return bus_locations
+
+def get_bus_paths():
+    _, bus_paths = get_data()
+    print(bus_paths)
+    return bus_paths
 
 def main():
     render_bus_locations('templates/index.html')

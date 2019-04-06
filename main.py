@@ -14,8 +14,10 @@ def markers():
     data = get_bus_locations()
     return jsonify({"data": data})
 
-
-
+@app.route('/paths')
+def paths():
+    data = get_bus_paths()
+    return jsonify({"data" : data})
         
 if __name__ == '__main__':
     app.debug = True
