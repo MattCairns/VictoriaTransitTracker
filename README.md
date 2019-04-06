@@ -11,7 +11,5 @@ pip install flask
 
 pip install gtfs-realtime-bindings
 
-pip install folium
-
 ### Acknowledgements
 Data provided by [BCTransit](https://www.bctransit.com/)
