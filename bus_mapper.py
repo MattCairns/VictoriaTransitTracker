@@ -3,6 +3,11 @@ import folium, random, requests
 from helpers import *
 
 gtfs = 'https://victoria.mapstrat.com/current/gtfrealtime_VehiclePositions.bin'
+trips = read_trips('data/trips.txt')
+trips_static = read_trips('data/trips_static.txt', static = True)
+routes_static = read_routes('data/routes_static.txt', static = True)
+routes = read_routes('data/routes.txt')
+shapes = read_shapes('data/shapes.txt')
 
 def get_realtime_data(link):
     feed = gtfs_realtime_pb2.FeedMessage()
@@ -13,15 +18,6 @@ def get_realtime_data(link):
 
 def get_data():
     feed = get_realtime_data(gtfs)
-
-    print('There are {} buses.'.format(len(feed.entity)))
-
-    trips = read_trips('data/trips.txt')
-    trips_static = read_trips('data/trips_static.txt', static = True)
-    routes_static = read_routes('data/routes_static.txt', static = True)
-    routes = read_routes('data/routes.txt')
-    shapes = read_shapes('data/shapes.txt')
-
     bus_locations = []
     bus_paths = []
     for bus in feed.entity:
@@ -47,7 +43,6 @@ def get_bus_paths():
 
 def main():
     render_bus_locations('templates/index.html')
-
 
 if __name__ == '__main__':
     main()
