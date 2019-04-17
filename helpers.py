@@ -1,38 +1,15 @@
 import csv
 
-def read_trips(file_name, static = False):
+# Read our static bus data files 
+def read_static_data(file_name, index = 0):
     d = {}
     with open(file_name, encoding='utf8') as tsvin:
         reader = csv.reader(tsvin, delimiter = ',')
         for row in reader:
-            if static:
-                d[row[4]] = row
-            else:
-                d[row[2]] = row
+            d[row[index]] = row
     return d
 
-def read_trip_reference(file_name):
-    d = {}
-    with open(file_name, encoding='utf8') as tsvin:
-        reader = csv.reader(tsvin, delimiter = ',')
-        for row in reader:
-            if row[0] == 'gtf_trip_id':
-                continue
-            if row[0] not in d:
-                d[row[0]] = row
-    return d
-
-def read_routes(file_name, static = False):
-    d = {}
-    with open(file_name, encoding='utf8') as tsvin:
-        reader = csv.reader(tsvin, delimiter = ',')
-        for row in reader:
-            if static:
-                d[row[1]] = row
-            else:
-                d[row[0]] = row
-    return d
-
+# Read the path shapes for our bus routes.
 def read_shapes(file_name):
     d = {}
     with open(file_name, encoding='utf8') as tsvin:
@@ -46,7 +23,7 @@ def read_shapes(file_name):
                 d[row[0]].append((float(row[1]), float(row[2])))
     return d
 
-
+# Test
 def main():
     shapes = read_shapes('data/shapes.txt')
 

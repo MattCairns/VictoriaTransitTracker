@@ -4,16 +4,18 @@ import time, os
 
 app = Flask(__name__)
 
-
+# Get our webpage
 @app.route('/')
 def home():
     return render_template('index.html')
 
+# Get bus locations
 @app.route('/busses')
 def markers():
     data = get_bus_locations()
     return jsonify({"data": data})
 
+# Get the paths to draww on the map
 @app.route('/paths')
 def paths():
     data = get_bus_paths()
