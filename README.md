@@ -8,6 +8,7 @@ Since im tired of waiting to see where my bus is I wrote this.
 ## Requirements
 
 pip install flask
+
 pip install gtfs-realtime-bindings
 
 ### Acknowledgements
